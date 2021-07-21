@@ -24,7 +24,6 @@
 
 
 (defn server-settings [port]
-  (prn "Start server on port" port)
   {::http/routes          routes
    ::http/type            :jetty
    ::http/host            "0.0.0.0"
@@ -43,10 +42,11 @@
 
 (defn- start-server [port]
   (try
-    (-> (port-number port)
-        (server-settings)
-        (http/create-server)
-        (http/start))
+    (let [port' (port-number port)]
+      (prn (str "Start server on port " port'))
+      (-> (server-settings port')
+          (http/create-server)
+          (http/start)))
     (catch Exception e
       (prn (print-stack-trace e)))))
 

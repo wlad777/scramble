@@ -8,7 +8,7 @@
 (defn destroy []
   (prn "System is shutting down...")
   (doseq [component (:stopped (mount/stop))]
-    (prn component "stopped"))
+    (prn (str component " stopped")))
   (prn "System shutdown complete. Bye."))
 
 
@@ -20,7 +20,7 @@
 (defn init []
   (prn "System init...")
   (doseq [component (:started (mount/start))]
-    (prn component "started")))
+    (prn (str component " started"))))
 
 
 (defn start-app []
