@@ -1,6 +1,6 @@
-(ns scramble.core-test
+(ns scramble.server-test
   (:require [clojure.test :refer [deftest testing is are run-tests]]
-            [scramble.core :as x]))
+            [scramble.server :as x]))
 
 
 (deftest scramble-test

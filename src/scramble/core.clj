@@ -1,26 +1,26 @@
 (ns scramble.core
+  (:require [mount.core :as mount]
+            ;; mount components
+            [scramble.server :as http-server])
   (:gen-class))
 
 
-(defn scramble?
-  "returns true if a portion of str1 characters can be rearranged to match str2, otherwise returns false"
-  [str1 str2]
-  (let [chars-map1 (frequencies (or str1 ""))
-        chars-map2 (frequencies (or str2 ""))]
-    (every? (fn [[c freq]]
-              (<= freq (get chars-map1 c 0)))
-            chars-map2)))
+(defn- stop-app []
+  (prn "System is shutting down...")
+  (doseq [component (:stopped (mount/stop))]
+    (prn component "stopped"))
+  (prn "System shutdown complete. Bye.")
+  (shutdown-agents))
 
 
-#_(scramble? "rekqodlw" "world")
-#_(scramble? "cedewaraaossoqqyt" "codewars")
-#_(scramble? "katas" "steak")
-#_(scramble? "katas" "")
-#_(scramble? nil "steak")
-#_(scramble? "rekqodlw" nil)
+(defn- start-app [_]
+  (prn "System init...")
+  (.addShutdownHook (Runtime/getRuntime) (Thread. stop-app))
+  (doseq [component (:started (mount/start))]
+    (prn component "started")))
 
 
 (defn -main [& args]
-  (scramble? (first args) (second args)))
+  (start-app args))
 
-
+#_(start-app "")
