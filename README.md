@@ -13,12 +13,25 @@ Examples:
     (scramble? “cedewaraaossoqqyt” ”codewars”) ==> true
     (scramble? “katas”  “steak”) ==> false
 
+### Task 2
+Create a web service that accepts two strings in a request and applies function scramble? from previous task to them.
+
+
 
 ### Usage
 
-Run:
+Start server:
 
     lein repl
-    (scramble? "abc" "cab") 
+    (start-app) 
 
+
+Use API:
+
+    curl localhost:9090/scramble/abc/cab
+
+
+### Testing
+
+    lein midje :autotest
 

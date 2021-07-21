@@ -5,22 +5,30 @@
   (:gen-class))
 
 
-(defn- stop-app []
+(defn destroy []
   (prn "System is shutting down...")
   (doseq [component (:stopped (mount/stop))]
     (prn component "stopped"))
-  (prn "System shutdown complete. Bye.")
+  (prn "System shutdown complete. Bye."))
+
+
+(defn stop-app []
+  (destroy)
   (shutdown-agents))
 
 
-(defn- start-app [_]
+(defn init []
   (prn "System init...")
-  (.addShutdownHook (Runtime/getRuntime) (Thread. stop-app))
   (doseq [component (:started (mount/start))]
     (prn component "started")))
 
 
-(defn -main [& args]
-  (start-app args))
+(defn start-app []
+  (init)
+  (.addShutdownHook (Runtime/getRuntime) (Thread. stop-app)))
 
-#_(start-app "")
+
+(defn -main [_]
+  (start-app))
+
+#_(start-app)

@@ -14,12 +14,19 @@
   :source-paths ["src"]
   :resource-paths ["resources"]
 
+  :plugins [[lein-environ "1.1.0"]
+            [lein-midje "3.2.1"]]
+
   :main ^:skip-aot scramble.core
 
 
   :profiles {:uberjar {:omit-source  true
                        :aot          :all
                        :uberjar-name "scramble.jar"}
-             :dev {:source-paths ["repl"]
-                   :repl-options {:init-ns scramble.core}
-                   :env          {:http-port "9090"}}})
+             :dev     {:source-paths ["test"]
+                       :repl-options {:init-ns scramble.core}
+                       :env          {:http-port "9090"}}
+             :midje   {:dependencies [[midje "1.9.9"]
+                                      [clj-http "3.10.1"]]
+                       :source-paths ["test"]
+                       :env          {:http-port "9191"}}})
