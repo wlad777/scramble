@@ -39,25 +39,20 @@
 (against-background
  [(before :contents (core/init) :after (core/destroy))]
 
- (fact "revokes root request"
-       (send-request {})
-       => (contains {:status 404
-                     :body   "Not Found"}))
-
  (fact "revokes unknown path"
        (send-request {:path "/test"})
        => (contains {:status 404
-                     :body   "Not Found"}))
+                     :body   "<h1>Page not found</h1>"}))
 
  (fact "revokes scramble request without params"
        (send-request {:path "/scramble"})
        => (contains {:status 404
-                     :body   "Not Found"}))
+                     :body   "<h1>Page not found</h1>"}))
 
  (fact "revokes scramble request with one param"
        (send-request {:path "/scramble"})
        => (contains {:status 404
-                     :body   "Not Found"}))
+                     :body   "<h1>Page not found</h1>"}))
 
  (fact "accept scramble request with two params"
        (send-request {:path "/scramble/test/test"})
@@ -67,7 +62,7 @@
        (send-request {:method :post
                       :path "/scramble/test/test"})
        => (contains {:status 404
-                     :body   "Not Found"}))
+                     :body   "<h1>Page not found</h1>"}))
 
  (fact "returns true, if a portion of first param can be rearranged to match second param"
        (send-request {:path "/scramble/test/etts"})
@@ -78,6 +73,11 @@
        (send-request {:path "/scramble/test/abc"})
        => (contains {:status 200
                      :body "false"}))
+ 
+  (fact "returns index.html for root"
+        (let [response (send-request {})]
+          response => (contains {:status 200})
+          (.startsWith (:body response) "<!DOCTYPE html>") => true))
 
 
  (comment))
