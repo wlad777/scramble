@@ -3,12 +3,13 @@
   :description "Scramblies challenge"
 
   :dependencies [[org.clojure/clojure "1.10.3"]
-                 [io.pedestal/pedestal.service "0.5.9"]
-                 [io.pedestal/pedestal.jetty "0.5.9"]
+                 [org.clojure/clojurescript "1.10.879"]
+                 [ring "1.9.4"]
+                 [compojure "1.6.2"]
                  [environ "1.2.0"]
                  [mount "0.1.16"]]
 
-  :min-lein-version "2.0.0"
+  :min-lein-version "2.9.0"
 
   :jvm-opts ["-server"]
   :source-paths ["src"]
@@ -27,6 +28,6 @@
                        :repl-options {:init-ns scramble.core}
                        :env          {:http-port "9090"}}
              :midje   {:dependencies [[midje "1.9.9"]
-                                      [clj-http "3.10.1"]]
+                                      [clj-http "3.12.3"]]
                        :source-paths ["test"]
                        :env          {:http-port "9191"}}})

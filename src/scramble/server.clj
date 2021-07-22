@@ -1,6 +1,9 @@
 (ns scramble.server
   (:require [clojure.stacktrace :refer [print-stack-trace]]
-            [io.pedestal.http :as http]
+            [compojure.core :refer [GET defroutes]]
+            [compojure.route :refer [resources not-found]]
+            [ring.adapter.jetty :refer [run-jetty]]
+            [ring.util.response :as response]
             [mount.core :refer [defstate]]
             [environ.core :refer [env]]))
 
@@ -15,21 +18,11 @@
             chars-map2)))
 
 
-(defn- scramble-path [{params :path-params}]
-  {:status  200
-   :body    (str (scramble? (:str1 params) (:str2 params)))})
-
-
-(def routes #{["/scramble/:str1/:str2" :get  `scramble-path]})
-
-
-(defn server-settings [port]
-  {::http/routes          routes
-   ::http/type            :jetty
-   ::http/host            "0.0.0.0"
-   ::http/port            port
-   ::http/allowed-origins (constantly true)
-   ::http/join?           false})
+(defroutes routes
+  (GET "/" [] (response/resource-response "index.html" {:root "public"}))
+  (GET "/scramble/:str1/:str2" [str1 str2] (response/response (str (scramble? str1 str2))))
+  (resources "/")
+  (not-found "<h1>Page not found</h1>"))
 
 
 (defn- port-number [port]
@@ -42,22 +35,16 @@
 
 (defn- start-server [port]
   (try
-    (let [port' (port-number port)]
-      (prn (str "Start server on port " port'))
-      (-> (server-settings port')
-          (http/create-server)
-          (http/start)))
+    (let [port (port-number port)]
+      (prn (str "Start server on port " port))
+      (run-jetty routes {:port port :join? false}))
     (catch Exception e
       (prn (print-stack-trace e)))))
 
 
-(defn- stop-server [http-server]
-  (when http-server
-    (http/stop http-server)))
-
-
 (defstate http-server
   :start (start-server (env :http-port))
-  :stop (stop-server http-server))
+  :stop (when http-server
+          (.stop http-server)))
 
 

@@ -28,7 +28,7 @@
   (.addShutdownHook (Runtime/getRuntime) (Thread. stop-app)))
 
 
-(defn -main [_]
+(defn -main [& _]
   (start-app))
 
 #_(start-app)
