@@ -1,0 +1,38 @@
+body {
+    font-family: Helvetica, Arial sans-serif;
+    color: #3e3e3e;
+}
+
+.wrap {
+    width: 50%;
+    min-width: 650px;
+    margin: 5rem;
+}
+
+.box {
+    position: absolute;
+    top: 12rem;
+    left: 15rem;
+    padding: 10px;
+    border: 2px solid;
+    border-radius: 0.25rem;
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 25%);
+}
+
+.box .box-text {
+    margin: 30px;
+}
+
+.box .box-button {
+    display: flex;
+    justify-content: center;
+}
+
+.row {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.column {
+    flex: 1;
+}
