@@ -30,12 +30,7 @@ Install node modules
 
 Start shadow-cljs
 
-    npm run watch
-
-
-Start server
-
-    lein run dev
+    npx shadow-cljs watch app
 
 
 Use API
@@ -57,7 +52,6 @@ Frontend
 Build frontend
 
     npm install
-    npm run release
 
 Build backend and package
 

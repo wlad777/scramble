@@ -1,11 +1,6 @@
-{:nrepl {:port 8777}
-
- :source-paths ["cljs"]
-
- :dependencies [[reagent "1.1.0"]
-                [re-frame "1.2.0"]
-                [cljs-ajax "0.8.3"]
-                [binaryage/devtools "1.0.3"]]
+{:lein {:profile "+dev"}
+ 
+ :nrepl {:port 8777}
 
  :dev-http {8280 "resources/public"
             8290 "target/browser-test"}
