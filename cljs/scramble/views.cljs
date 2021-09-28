@@ -1,19 +1,22 @@
 (ns scramble.views
-  (:require [clojure.string :as s]
-            [reagent.core :as r]
-            [re-frame.core :as re-frame]
-            [scramble.subs :as subs]
-            [scramble.events :as events]))
+  (:require
+    [clojure.string :as s]
+    [re-frame.core :as re-frame]
+    [reagent.core :as r]
+    [scramble.events :as events]
+    [scramble.subs :as subs]))
 
 
-(defn- input-field [value]
+(defn- input-field
+  [value]
   [:input
    {:type      "text"
     :value     @value
     :on-change #(reset! value (-> % .-target .-value))}])
 
 
-(defn- form [str1-atom str2-atom result-atom]
+(defn- form
+  [str1-atom str2-atom result-atom]
   [:div
    [:div.row
     [:span.column
@@ -37,7 +40,8 @@
       "scramble"]]]])
 
 
-(defn- box [result]
+(defn- box
+  [result]
   (when-not (nil? result)
     [:div.box
      {:style {:border-color (if result "green" "maroon")
@@ -48,14 +52,16 @@
         "Nope, some characters are missing 😟")]
      [:div.box-button
       [:button
-        {:on-click #(re-frame/dispatch [::events/reset])}
+       {:on-click #(re-frame/dispatch [::events/reset])}
        "close"]]]))
 
 
 (def str1 (r/atom "rekqodlw"))
 (def str2 (r/atom "world"))
 
-(defn main-panel []
+
+(defn main-panel
+  []
   (let [result (re-frame/subscribe [::subs/result])]
     [:div.wrap
      (box @result)

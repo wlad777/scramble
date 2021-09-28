@@ -1,11 +1,12 @@
 (ns scramble.server
-  (:require [clojure.stacktrace :refer [print-stack-trace]]
-            [compojure.core :refer [GET defroutes]]
-            [compojure.route :refer [resources not-found]]
-            [ring.adapter.jetty :refer [run-jetty]]
-            [ring.util.response :as response]
-            [mount.core :refer [defstate]]
-            [environ.core :refer [env]]))
+  (:require
+    [clojure.stacktrace :refer [print-stack-trace]]
+    [compojure.core :refer [GET defroutes]]
+    [compojure.route :refer [resources not-found]]
+    [environ.core :refer [env]]
+    [mount.core :refer [defstate]]
+    [ring.adapter.jetty :refer [run-jetty]]
+    [ring.util.response :as response]))
 
 
 (defn scramble?
@@ -25,7 +26,8 @@
   (not-found "<h1>Page not found</h1>"))
 
 
-(defn- port-number [port]
+(defn- port-number
+  [port]
   (or (cond
         (number? port) port
         (string? port) (try (Long/parseLong port) (catch Exception _ nil))
@@ -33,7 +35,8 @@
       9090))
 
 
-(defn- start-server [port]
+(defn- start-server
+  [port]
   (try
     (let [port (port-number port)]
       (prn (str "Start server on port " port))
